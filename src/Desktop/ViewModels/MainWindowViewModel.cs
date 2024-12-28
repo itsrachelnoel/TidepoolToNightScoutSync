@@ -1,5 +1,9 @@
 ﻿using System;
+using System.Net.Http;
 using System.Threading.Tasks;
+using Dumpify;
+using Microsoft.Extensions.Options;
+using TidepoolToNightScoutSync.Core.Services.Tidepool;
 
 namespace Desktop.ViewModels;
 
@@ -12,11 +16,13 @@ public partial class MainWindowViewModel : ViewModelBase
 
     public async Task Test(IServiceProvider services)
     {
-        Console.WriteLine($"TidepoolUsername: {TidepoolUsername}");
-        Console.WriteLine($"TidepoolPassword: {TidepoolPassword}");
+        var tidepool = await new TidepoolClientFactory(Options.Create(new TidepoolClientOptions
+        {
+            Username = TidepoolUsername,
+            Password = TidepoolPassword
+        }), new HttpClient()).CreateAsync();
 
-        await Task.Delay(TimeSpan.FromSeconds(0.5));
-        Console.WriteLine($"NightscoutUrl: {NightscoutUrl}");
-        Console.WriteLine($"NightscoutApiKey: {NightscoutApiKey}");
+        var boluses = await tidepool.GetBolusAsync(DateTime.Now.AddMonths(-1));
+        boluses.DumpConsole();
     }
 }

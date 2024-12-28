@@ -10,11 +10,19 @@
         Title="Desktop">
 
     <Design.DataContext>
-        <!-- This only sets the DataContext for the previewer in an IDE,
-             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
         <vm:MainWindowViewModel/>
     </Design.DataContext>
 
-    <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+    <StackPanel Margin="20">
+        <TextBlock Text="Tidepool Credentials" FontWeight="Bold" Margin="0,0,0,10"/>
+        <TextBox Watermark="Tidepool Username" Text="{Binding TidepoolUsername}" Margin="0,0,0,10"/>
+        <TextBox Watermark="Tidepool Password" Text="{Binding TidepoolPassword}" Margin="0,0,0,10" PasswordChar="*"/>
+
+        <TextBlock Text="Nightscout Configuration" FontWeight="Bold" Margin="0,20,0,10"/>
+        <TextBox Watermark="Nightscout URL" Text="{Binding NightscoutUrl}" Margin="0,0,0,10"/>
+        <TextBox Watermark="Nightscout API Key" Text="{Binding NightscoutApiKey}" Margin="0,0,0,20" PasswordChar="*"/>
+
+        <Button Content="Test" Command="{Binding Test}" HorizontalAlignment="Center"/>
+    </StackPanel>
 
 </Window>

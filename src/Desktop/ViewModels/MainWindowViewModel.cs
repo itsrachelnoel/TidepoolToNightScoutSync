@@ -11,11 +11,15 @@ public partial class MainWindowViewModel : ViewModelBase
 {
     public string TidepoolUsername { get; set; } = "";
     public string TidepoolPassword { get; set; } = "";
-    public string NightscoutUrl  { get; set; } = "";
-    public string NightscoutApiKey  { get; set; } = "";
+    public string NightscoutUrl { get; set; } = "";
+    public string NightscoutApiKey { get; set; } = "";
 
     public async Task Test(IServiceProvider services)
     {
+        StateManager.State.TidepoolUsername = TidepoolUsername;
+        StateManager.State.TidepoolPassword = TidepoolPassword;
+        await StateManager.SaveState();
+
         var tidepool = await new TidepoolClientFactory(Options.Create(new TidepoolClientOptions
         {
             Username = TidepoolUsername,
